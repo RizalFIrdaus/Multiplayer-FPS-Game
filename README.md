@@ -5,4 +5,14 @@
 
 Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity dengan C# , tutorial pembuatan game ini terinspirasi dari salah satu youtuber game developer yaitu [Channel Brackeys](https://www.youtube.com/user/Brackeys)
 ## Fitur FPS Game
-  1. [Make a movement player](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
+  1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
+  2. [Networking Multiplayer](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
+  3. [Melakukan Singkronisasi Player dengan Localplayer (Syncing Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
+  4. [Membuat Player Terbang (Flying / Jump)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
+  5. [Menembak Player (Debugging Shot)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
+  6. [Hit Damage Player (Include Hit Point)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
+  7. [Respawn player ketika start game (Respawning Player)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
+  8. [Membuat Model pada Player (Make a Model Player)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
+  9. [Titik Tembak (CrossHair)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
+  
+ 
