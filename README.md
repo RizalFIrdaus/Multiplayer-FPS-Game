@@ -10,15 +10,39 @@ Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity deng
   
   <table style="width:100%">
   <tr>
-    <td>Method Start()  : akan panggil ketika Game dijalankan satukali</td>
+    <th>Keyword</th>
+    <th>Fungsi</th>
+  </tr>
+  <tr>
+    <td>Method Start()<td/>
+    <td>Akan panggil ketika Game dijalankan satukali</td>
+  </tr>
+  <tr>
+    <td>Method Update()<td/>
+    <td>Fungsi ini akan dipanggil setiap frame per detik yang dimana akan selalu berubah dan terus mengulangnya sampai game berhenti atau keluar dari game tersebut.</td>
+  </tr>
+  <tr>
+    <td>GetComponent<>()<td/>
+    <td>Memanggil komponen </td>
+  </tr>
+  <tr>
+    <td>Input.GetAxis()<td/>
+    <td>Deteksi input keyboard</td>
+  </tr>
+  <tr>
+    <td>transform.right<td/>
+    <td>Memindahkan object kekanan/td>
+  </tr>
+   <tr>
+     <td>transform.left<td/>
+    <td>Memindahkan object kekiri/td>
   </tr>
 </table> 
-  Method Start()  : akan panggil ketika Game dijalankan satukali
-  Method Update() : fungsi ini akan dipanggil setiap frame per detik yang dimana akan selalu berubah dan terus mengulangnya sampai game berhenti atau keluar dari game   tersebut.<br>
-  GetComponent<>() : Memanggil komponen<br>
-  Input.GetAxis() : Deteksi input keyboard<br>
-  transform.right : memindahkan object kekanan<br>
-  transform.left : memindahkan object kekiri <br>
+ 
+ 
+ 
+ 
+ 
   
 
 ### Memanggil Script PlayerMotor
