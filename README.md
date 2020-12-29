@@ -102,7 +102,7 @@ Disini kita buat variabel xMove untuk horizontal dan zMove untuk vertical, untuk
   </tr>
  <table/>
 
-## Membuat Velocity
+### Membuat Velocity
 Velocity adalah sama seperti speed tetapi yang membedakan kalau speed itu tidak adanya vektor sedangkan velocity adanya arah vektor , tujuan pembuatan velocity ini berfungsi ketika kita memencet tombol input maka akan terjadi perpindahan sebesar velocitynya
 
 
@@ -159,6 +159,74 @@ Setelah itu tentunya harus kita ubah posisi dengan memanfaatnkan velocity yang s
    <tr>
     <th>Time.fixedDeltaTime</th>
     <th>Interval/detik secara smooth</th>
+  </tr>
+ <table/>
+  
+ 
+ ### Deteksi Input Mouse
+ 
+ Setelah kita bisa melakukan pergerakan dari playernya , sekarang kita lakukan pergerakan camera untuk menembak
+       
+    float _yBot = Input.GetAxis("Mouse X");
+    Vector3 _rotation = new Vector3(0f, _yBot, 0f) * lookSensitivity;
+    motor.Rotate(_rotation);
+ 
+    float _xBot = Input.GetAxis("Mouse Y");
+    float _cameraRotationX = _xBot * lookSensitivity;
+    motor.RotateCamera(_cameraRotationX);
+
+Pertama kita input mouse horizontal dengan menggunakan GetAxis Mouse X dan tentunya kita buat vector3 (x,y,z) (0,yBot,0) dan kita kalikan dengaan Sesitifitas dari mouse dengan membuat variable lookSensitivity lalu isi variable tersebut dengan 3f , setelah itu buat Rotate method pada PlayerMotor untuk melakukan eksekusi rotasi
+
+    public void Rotate(Vector3 _rotation)
+    {
+        rotation = _rotation;
+    }
+
+
+Setelah itu kita input mouse Vertical dengan menggunakan input axis Mouse Y dan kita kalikan dengan sesitifitas tadi.
+   
+    float _xBot = Input.GetAxis("Mouse Y");
+    float _cameraRotationX = _xBot * lookSensitivity;
+    motor.RotateCamera(_cameraRotationX);
+
+Setelah itu pass variable ke PlayerMotor dengan method RotateCamera
+  
+    public void RotateCamera(float _rotateCameraX)
+    {
+        rotateCameraX = _rotateCameraX;
+    }
+    
+ Jika sudah kita buat PerformRotationnya untuk melakukan eksekusi rotasinya
+ 
+    void PerformRotation()
+    {
+        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
+
+        if (cam != null)
+        {
+            currentRotateCameraX -= rotateCameraX;
+            currentRotateCameraX = Mathf.Clamp(currentRotateCameraX, -camRotateLimit, camRotateLimit);
+            cam.transform.localEulerAngles = new Vector3(currentRotateCameraX, 0f, 0f);
+        }
+    }
+
+Untuk melakukan eksekusi tentunya kita merotasi rigidbody dengan menggunakan MoveRotation dan menggunakan Quaternion.Euler
+lalu dilakukan pengecekan ketika cam (Camera Lobby bukan cam player) ada , maka rotasisekarang akan dikurangi dengan rotateCameraX yang sudah kita cari di ControllerPlayer , maka dari iut currentRotateCameraX berisi minesnya dari rotateCameraX , dan kita lakukan pembatasan rotasi pada horizontal agar camera tidak kebelakang badan dengan melakukan Math.Clap, dimana pada parameter kedua adalah minimum rotasi ,dan parameter ketiga ada maximum rotasi limit yang mana var tersebut diinstansiasi di awal.
+
+setelah kita transform rotasi relative terhadap parentnya , karena cam termasuk child dari player tentunya kita ingin mengubah rotate juga pada parentnya agar sama-sama berotasi dengan childnya dengan menggunakan transform.localEulerAngles
+
+<table style="width:100%">
+  <tr>
+    <th>Keyword</th>
+    <th>Function</th>
+  </tr>
+  <tr>
+    <th>Rigidbody.MoveRotation()</th>
+    <th>Untu melakukan rotasi pada rigidbody</th>
+  </tr>
+  <tr>
+    <th>Quaternion.Euler()</th>
+    <th>Membuat rigidbody berpindah</th>
   </tr>
  <table/>
 
