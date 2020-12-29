@@ -6,6 +6,7 @@
 Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity dengan C# , tutorial pembuatan game ini terinspirasi dari salah satu youtuber game developer yaitu [Channel Brackeys](https://www.youtube.com/user/Brackeys)
 
 
+
 ## Penejelasan Codingan
   
  <table style="width:100%">
@@ -71,6 +72,7 @@ Lalu pada method Start kita panggil scriptnya dengan cara : GetComponent<>();
     float _zMove = Input.GetAxis("Vertical");
     
 Disini kita buat variabel xMove untuk horizontal dan zMove untuk vertical, untuk settings tombol yaitu dengan <b>Edit > Project Settings > Input Manager<b/>
+  
 Didalam Input Manager kita bisa melihat banyak isi dari Axes salah satunya adalah Horizontal dan Vertical , jika kita ingin set positiveButton dan negativeButton , default pada Input Horizontal adalah
   
 
@@ -97,7 +99,7 @@ Didalam Input Manager kita bisa melihat banyak isi dari Axes salah satunya adala
     <td>Ke Belakang</td>
     <td>S</td>
   </tr>
- 
+ <table/>
 
 
 ## Fitur FPS Game
@@ -110,6 +112,5 @@ Didalam Input Manager kita bisa melihat banyak isi dari Axes salah satunya adala
   7. [Respawn player ketika start game (Respawning Player)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
   8. [Membuat Model pada Player (Make a Model Player)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
   9. [Titik Tembak (CrossHair)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
-
 
 
