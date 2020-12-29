@@ -261,7 +261,7 @@ setelah kita transform rotasi relative terhadap parentnya , karena cam termasuk 
     
  Berikut adalah hasilnya 
  
- ![](https://ibb.co/RBb5wZb)
+ ![GIF](https://ibb.co/RBb5wZb)
   
 
 ## Fitur FPS Game
