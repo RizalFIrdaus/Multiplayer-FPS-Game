@@ -8,38 +8,40 @@ Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity deng
 
 ## Penejelasan Codingan
   
-  <table style="width:100%">
+ <table style="width:100%">
   <tr>
     <th>Keyword</th>
-    <th>Fungsi</th>
+    <th>Function</th>
   </tr>
   <tr>
-    <td>Method Start()<td/>
+    <td>Method Start()</td>
     <td>Akan panggil ketika Game dijalankan satukali</td>
   </tr>
-  <tr>
-    <td>Method Update()<td/>
+ <tr>
+    <td>Method Update()</td>
     <td>Fungsi ini akan dipanggil setiap frame per detik yang dimana akan selalu berubah dan terus mengulangnya sampai game berhenti atau keluar dari game tersebut.</td>
   </tr>
   <tr>
-    <td>GetComponent<>()<td/>
-    <td>Memanggil komponen </td>
+    <td>GetComponent<>()</td>
+    <td>Memanggil komponen</td>
   </tr>
   <tr>
-    <td>Input.GetAxis()<td/>
-    <td>Deteksi input keyboard</td>
+    <td>Input.GetAxis()</td>
+    <td>Deteksi input</td>
   </tr>
   <tr>
-    <td>transform.right<td/>
-    <td>Memindahkan object kekanan/td>
+    <td>transform.right</td>
+    <td>Memindahkan object ke kanan</td>
   </tr>
-   <tr>
-     <td>transform.left<td/>
-    <td>Memindahkan object kekiri/td>
+  <tr>
+    <td>transform.left</td>
+    <td>Memindahkan object ke kiri</td>
+  </tr>
+  <tr>
+    <td>[SerializeField]</td>
+    <td>Untuk menampilkan UI Inspector di Unity</td>
   </tr>
 </table> 
- 
- 
  
  
  
@@ -61,21 +63,41 @@ Buat terlebih dahulu script dengan nama ControllerPlayer dan PlayerMotor pada ga
     }
 
 buat terlebih dahulu variable speed untuk perubahan velocity pada player dan tentunya kita konekan ControllerPlayer dengan PlayerMotor dengan membuat private variable dan tuliskan nama script yaitu PlayerMotor dan gunakan nama alias motor
-
 Lalu pada method Start kita panggil scriptnya dengan cara : GetComponent<>();
-
 
 ### Deteksi Input Keyboard
 
+    float _xMove = Input.GetAxis("Horizontal");
+    float _zMove = Input.GetAxis("Vertical");
+    
+Disini kita buat variabel xMove untuk horizontal dan zMove untuk vertical, untuk settings tombol yaitu dengan <b>Edit > Project Settings > Input Manager<b/>
+Didalam Input Manager kita bisa melihat banyak isi dari Axes salah satunya adalah Horizontal dan Vertical , jika kita ingin set positiveButton dan negativeButton , default pada Input Horizontal adalah
+  
 
-
-
-
-
-
-
-
-
+<table style="width:100%">
+  <tr>
+    <th colspan="2">Horizontal</th>
+    <th colspan="2">Vertical</th>
+  </tr>
+  <tr>
+    <th>Input</th>
+    <th>Button</th>
+    <th>Input</th>
+    <th>Button</th>
+  </tr>
+  <tr>
+    <td>Ke Kiri</td>
+    <td>A</td>
+     <td>Ke Depan</td>
+    <td>W</td>
+  </tr>
+  <tr>
+    <td>Ke Kanan</td>
+    <td>D</td>
+    <td>Ke Belakang</td>
+    <td>S</td>
+  </tr>
+ 
 
 
 ## Fitur FPS Game
