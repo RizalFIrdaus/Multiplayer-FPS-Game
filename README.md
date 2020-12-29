@@ -261,7 +261,7 @@ setelah kita transform rotasi relative terhadap parentnya , karena cam termasuk 
     
  Berikut adalah hasilnya 
  
- <a href="https://ibb.co/RBb5wZb"><img src="https://i.ibb.co/cC3mnM3/2020-12-29-21-32-58.gif" alt="2020-12-29-21-32-58" border="0"></a>
+ ![](https://ibb.co/RBb5wZb)
   
 
 ## Fitur FPS Game
