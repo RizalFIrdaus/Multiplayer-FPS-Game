@@ -229,7 +229,40 @@ setelah kita transform rotasi relative terhadap parentnya , karena cam termasuk 
     <th>Membuat rigidbody berpindah</th>
   </tr>
  <table/>
-
+  
+ Setelah itu, jangan lupa kita eksekusi dengan method FixedUpdate, sebelum itu kita harus tau bedanya Method Update
+ 
+<table style="width:100%">
+  <tr>
+    <th>Keyword</th>
+    <th>Function</th>
+  </tr>
+  <tr>
+    <th>Update</th>
+    <th>fungsi ini akan dipanggil setiap frame per detik yang dimana akan selalu berubah dan terus mengulangnya sampai game berhenti atau keluar dari game tersebut.</th>
+  </tr>
+  <tr>
+    <th>fixedUpdate</th>
+    <th>fungsi ini sama dengan Update namun frame per detik (fps) akan tetap atau tidak berubah selama permainan.</th>
+  </tr>
+  <tr>
+    <th>lateUpdate</th>
+    <th>fungsi ini akan dipanggil setelah semua script Update selesai.</th>
+  </tr>
+ <table/>
+  
+  Berikut kita menggunakan FixedUpdate karna kita ingin melakukan pemanggilan methodnya secara konstan dan tidak akan berubah , kita tambahkan 2 method yaitu movement dan rotation
+  
+    void FixedUpdate()
+    {
+        PerformMovement();
+        PerformRotation();
+    }
+    
+ Berikut adalah hasilnya 
+ 
+ <a href="https://ibb.co/RBb5wZb"><img src="https://i.ibb.co/cC3mnM3/2020-12-29-21-32-58.gif" alt="2020-12-29-21-32-58" border="0"></a>
+  
 
 ## Fitur FPS Game
   1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Movement-Player)
