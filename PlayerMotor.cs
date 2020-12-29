@@ -11,7 +11,7 @@ public class PlayerMotor : MonoBehaviour
     private Vector3 rotation = Vector3.zero;
     //rotate x limit
     private float rotateCameraX = 0f;
-    private float currentRotateCameraX = 0f;\
+    private float currentRotateCameraX = 0f;
 
     [SerializeField]
     private float camRotateLimit = 85f;
