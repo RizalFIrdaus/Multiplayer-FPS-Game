@@ -1,9 +1,58 @@
 # Multiplayer-FPS-Game
-
+<hr>
 <a href="https://ibb.co/tKKkj19"><img src="https://i.ibb.co/2hhmVpT/Banner.jpg" style="width:100px; margin-left:auto; margin-right:auto;" alt="Banner" border="0"></a>
 
 
 Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity dengan C# , tutorial pembuatan game ini terinspirasi dari salah satu youtuber game developer yaitu [Channel Brackeys](https://www.youtube.com/user/Brackeys)
+
+
+## Penejelasan Codingan
+  
+  <table style="width:100%">
+  <tr>
+    <td>Method Start()  : akan panggil ketika Game dijalankan satukali</td>
+  </tr>
+</table> 
+  Method Start()  : akan panggil ketika Game dijalankan satukali
+  Method Update() : fungsi ini akan dipanggil setiap frame per detik yang dimana akan selalu berubah dan terus mengulangnya sampai game berhenti atau keluar dari game   tersebut.<br>
+  GetComponent<>() : Memanggil komponen<br>
+  Input.GetAxis() : Deteksi input keyboard<br>
+  transform.right : memindahkan object kekanan<br>
+  transform.left : memindahkan object kekiri <br>
+  
+
+### Memanggil Script PlayerMotor
+
+Buat terlebih dahulu script dengan nama ControllerPlayer dan PlayerMotor pada gameobject player
+
+
+    public float speed = 5f;
+    private PlayerMotor motor;
+    [SerializeField]
+    private float lookSensitivity = 3f;
+    
+    void Start()
+    {
+        motor = GetComponent<PlayerMotor>();
+    }
+
+buat terlebih dahulu variable speed untuk perubahan velocity pada player dan tentunya kita konekan ControllerPlayer dengan PlayerMotor dengan membuat private variable dan tuliskan nama script yaitu PlayerMotor dan gunakan nama alias motor
+
+Lalu pada method Start kita panggil scriptnya dengan cara : GetComponent<>();
+
+
+### Deteksi Input Keyboard
+
+
+
+
+
+
+
+
+
+
+
 
 ## Fitur FPS Game
   1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
@@ -16,14 +65,5 @@ Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity deng
   8. [Membuat Model pada Player (Make a Model Player)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
   9. [Titik Tembak (CrossHair)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
 
-# First Step to Start a Project
 
-  1. Pertama yang kalian lakukan ketika memulai project ini adalah membuat sebuah prototype environment  ground , player , dan tembok(Optional)
-  
-  <a href="https://imgbb.com/"><img src="https://i.ibb.co/MfPDgYt/Capture.jpg" alt="Capture" border="0"></a>
-  
-  2. Lalu kita membuat player Directory terlebih dahulu
-  
-  <a href="https://imgbb.com/"><img src="https://i.ibb.co/mzxSwhn/Capture.jpg" alt="Capture" border="0"></a>
 
-  3. Jika sudah membuatnya , kita bisa tambahkan beberapak fitur yang tersedia diatas
