@@ -18,6 +18,12 @@ Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity deng
 
 # First Step to Start a Project
 
-  1. Pertama yang kalian lakukan ketika memulai project ini adalah membuat sebuah environment ground , player , dan tembok(Optional)
+  1. Pertama yang kalian lakukan ketika memulai project ini adalah membuat sebuah prototype environment  ground , player , dan tembok(Optional)
   
- 
+  <a href="https://imgbb.com/"><img src="https://i.ibb.co/MfPDgYt/Capture.jpg" alt="Capture" border="0"></a>
+  
+  2. Lalu kita membuat player Directory terlebih dahulu
+  
+  <a href="https://imgbb.com/"><img src="https://i.ibb.co/mzxSwhn/Capture.jpg" alt="Capture" border="0"></a>
+
+  3. Jika sudah membuatnya , kita bisa tambahkan beberapak fitur yang tersedia diatas
