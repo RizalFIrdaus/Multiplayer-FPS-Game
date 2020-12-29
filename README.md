@@ -232,14 +232,14 @@ setelah kita transform rotasi relative terhadap parentnya , karena cam termasuk 
 
 
 ## Fitur FPS Game
-  1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
-  2. Networking Multiplayer
-  3. Melakukan Singkronisasi Player dengan Localplayer (Syncing Movement)
-  4. Membuat Player Terbang (Flying / Jump)
-  5. Menembak Player (Debugging Shot)
-  6. Hit Damage Player (Include Hit Point)
-  7. Respawn player ketika start game (Respawning Player)
-  8. Membuat Model pada Player (Make a Model Player)
-  9. Titik Tembak (CrossHair)
+  1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Movement-Player)
+  2. Networking Multiplayer (Soon)
+  3. Melakukan Singkronisasi Player dengan Localplayer (Syncing Movement) (Soon)
+  4. Membuat Player Terbang (Flying / Jump) (Soon)
+  5. Menembak Player (Debugging Shot) (Soon)
+  6. Hit Damage Player (Include Hit Point) (Soon)
+  7. Respawn player ketika start game (Respawning Player) (Soon)
+  8. Membuat Model pada Player (Make a Model Player) (Soon)
+  9. Titik Tembak (CrossHair) (Soon)
 
 
