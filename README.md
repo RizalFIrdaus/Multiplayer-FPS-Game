@@ -7,15 +7,15 @@ Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity deng
 
 ## Fitur FPS Game
   1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Movement-Player)
-  2. [Networking Multiplayer](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
-  3. [Melakukan Singkronisasi Player dengan Localplayer (Syncing Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
-  4. [Membuat Player Terbang (Flying / Jump)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
-  5. [Menembak Player (Debugging Shot)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
-  6. [Hit Damage Player (Include Hit Point)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
-  7. [Respawn player ketika start game (Respawning Player)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
-  8. [Membuat Model pada Player (Make a Model Player)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
-  9. [Titik Tembak (CrossHair)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game)
-
+  2. Networking Multiplayer (Soon)
+  3. Melakukan Singkronisasi Player dengan Localplayer (Syncing Movement) (Soon)
+  4. Membuat Player Terbang (Flying / Jump) (Soon)
+  5. Menembak Player (Debugging Shot) (Soon)
+  6. Hit Damage Player (Include Hit Point) (Soon)
+  7. Respawn player ketika start game (Respawning Player) (Soon)
+  8. Membuat Model pada Player (Make a Model Player) (Soon)
+  9. Titik Tembak (CrossHair) (Soon)
+  
 # First Step to Start a Project
 
   1. Pertama yang kalian lakukan ketika memulai project ini adalah membuat sebuah prototype environment  ground , player , dan tembok(Optional)
