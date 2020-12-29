@@ -1,5 +1,5 @@
 # Multiplayer-FPS-Game
-
+<hr>
 <a href="https://ibb.co/tKKkj19"><img src="https://i.ibb.co/2hhmVpT/Banner.jpg" style="width:100px; margin-left:auto; margin-right:auto;" alt="Banner" border="0"></a>
 
 
@@ -16,7 +16,7 @@ Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity deng
   8. Membuat Model pada Player (Make a Model Player) (Soon)
   9. Titik Tembak (CrossHair) (Soon)
   
-# First Step to Start a Project
+## First Step to Start a Project
 
   1. Pertama yang kalian lakukan ketika memulai project ini adalah membuat sebuah prototype environment  ground , player , dan tembok(Optional)
   
