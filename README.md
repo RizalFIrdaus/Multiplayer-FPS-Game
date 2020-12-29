@@ -71,9 +71,7 @@ Lalu pada method Start kita panggil scriptnya dengan cara : GetComponent<>();
     float _xMove = Input.GetAxis("Horizontal");
     float _zMove = Input.GetAxis("Vertical");
     
-Disini kita buat variabel xMove untuk horizontal dan zMove untuk vertical, untuk settings tombol yaitu dengan <b>Edit > Project Settings > Input Manager<b/>
-  
-Didalam Input Manager kita bisa melihat banyak isi dari Axes salah satunya adalah Horizontal dan Vertical , jika kita ingin set positiveButton dan negativeButton , default pada Input Horizontal adalah
+Disini kita buat variabel xMove untuk horizontal dan zMove untuk vertical, untuk settings tombol yaitu dengan <b>Edit > Project Settings > Input Manager</b> Didalam Input Manager kita bisa melihat banyak isi dari Axes salah satunya adalah Horizontal dan Vertical , jika kita ingin set positiveButton dan negativeButton , default pada Input Horizontal adalah
   
 
 <table style="width:100%">
@@ -100,6 +98,27 @@ Didalam Input Manager kita bisa melihat banyak isi dari Axes salah satunya adala
     <td>S</td>
   </tr>
  <table/>
+
+## Membuat Velocity
+Velocity adalah sama seperti speed tetapi yang membedakan kalau speed itu tidak adanya vektor sedangkan velocity adanya arah vektor , tujuan pembuatan velocity ini berfungsi ketika kita memencet tombol input maka akan terjadi perpindahan sebesar velocitynya
+
+
+ Vector3 _movHoriz = transform.right * _xMove;
+        Vector3 _movVerti = transform.forward * _zMove;
+        Vector3 _velocity = (_movHoriz + _movVerti)* speed;
+        motor.Move(_velocity);
+
+<table style="width:100%">
+  <tr>
+    <th>Keyword</th>
+    <th>Function</th>
+  </tr>
+  <tr>
+    <th>Vector3</th>
+    <th>Merepresentasikan Vector 3D dan point</th>
+  </tr>
+ <table/>
+
 
 
 ## Fitur FPS Game
