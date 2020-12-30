@@ -120,7 +120,7 @@ Jika sudah maka coba run and build kembali lalu mulai jalankan game multiplayer 
 
 ## Fitur FPS Game
   1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Movement-Player)
-  2. Networking Multiplayer (https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Networking)
+  2. [Networking Multiplayer](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Networking)
   3. Melakukan Singkronisasi Player dengan Localplayer (Syncing Movement) (Soon)
   4. Membuat Player Terbang (Flying / Jump) (Soon)
   5. Menembak Player (Debugging Shot) (Soon)
