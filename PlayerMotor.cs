@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-
-[RequireComponent(typeof(PlayerController))]
 public class PlayerMotor : MonoBehaviour
 {
     [SerializeField]
     private Camera cam;
-    
+
     private Vector3 velocity = Vector3.zero;
     private Vector3 rotation = Vector3.zero;
     //rotate x limit
@@ -26,7 +26,7 @@ public class PlayerMotor : MonoBehaviour
     //pass variable
     public void Move(Vector3 _velocity)
     {
-        velocity = _velocity; 
+        velocity = _velocity;
     }
 
     public void Rotate(Vector3 _rotation)
@@ -49,17 +49,17 @@ public class PlayerMotor : MonoBehaviour
 
     void PerformMovement()
     {
-        if(velocity != Vector3.zero)
+        if (velocity != Vector3.zero)
         {
-            rb.MovePosition(rb.position + velocity *Time.fixedDeltaTime);
+           rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
         }
     }
 
     void PerformRotation()
     {
-        rb.MoveRotation(rb.rotation *Quaternion.Euler (rotation));
+        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
 
-        if(cam != null)
+        if (cam != null)
         {
 
             // set rotasi dan clamp it

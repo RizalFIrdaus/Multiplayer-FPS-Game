@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,7 +27,7 @@ public class PlayerController : MonoBehaviour
         //membuat velocity dan lakukan normalize dikalikan dengan speed player
         Vector3 _movHoriz = transform.right * _xMove;
         Vector3 _movVerti = transform.forward * _zMove;
-        Vector3 _velocity = (_movHoriz + _movVerti)* speed;
+        Vector3 _velocity = (_movHoriz + _movVerti) * speed;
         motor.Move(_velocity);
 
         //untuk deteksi input mouse
@@ -39,5 +41,4 @@ public class PlayerController : MonoBehaviour
         motor.RotateCamera(_cameraRotationX);
 
     }
-
 }
