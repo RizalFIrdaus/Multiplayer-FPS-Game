@@ -39,7 +39,10 @@ Componen ini berguna untuk melakukan transform pada childenya , karena object pl
 
 ### Membuat Network Manager
 
-Untu membuat network manager pertama yang dilakukan adalah membuat empty object dan kita berikan nama Network Manager , lalu kita beri beberapak Component seperti <b>NetowrkManager , NetworkManagerHUD</b>
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/7r2KhzC/image.png" alt="image" border="0"></a>
+
+Pertama kita buat empty object dan pada child nya kita buat juga empty object yang nantinya akan diberikan NetworkStartPosition yang berutujuan untuk merespown spot dari player , jika sudah , pada Object <b>_NetworkManager</b> kita masukkan Component <b>NetworkManager dan NetworkManagerUHD</b>
 
 <b>NetworKManager</b>
 
