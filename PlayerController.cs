@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     private PlayerMotor motor;
     [SerializeField]
     private float lookSensitivity = 3f;
-
+    [SerializeField]
+    private float thrusterForce = 1000f;
 
 
     // memanggil komponen saat game dijalankan
@@ -39,6 +40,15 @@ public class PlayerController : MonoBehaviour
         float _xBot = Input.GetAxis("Mouse Y");
         float _cameraRotationX = _xBot * lookSensitivity;
         motor.RotateCamera(_cameraRotationX);
+
+
+        Vector3 _thrusterForce = Vector3.zero;
+        if (Input.GetButton("Jump"))
+        {
+            _thrusterForce = Vector3.up * thrusterForce;
+        }
+        motor.applyThruster(_thrusterForce);
+        
 
     }
 }

@@ -7,6 +7,7 @@ public class PlayerMotor : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
     private Vector3 rotation = Vector3.zero;
+    private Vector3 thrusterForce = Vector3.zero;
     //rotate x limit
     private float rotateCameraX = 0f;
     private float currentRotateCameraX = 0f;
@@ -36,6 +37,10 @@ public class PlayerMotor : MonoBehaviour
     {
         rotateCameraX = _rotateCameraX;
     }
+    public void applyThruster(Vector3 _thrusterForce)
+    {
+        thrusterForce = _thrusterForce;
+    }
 
 
     //memanggil pergerakan dan rotasi 
@@ -50,6 +55,10 @@ public class PlayerMotor : MonoBehaviour
         if (velocity != Vector3.zero)
         {
            rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
+        }
+        if (thrusterForce != Vector3.zero)
+        {
+            rb.AddForce(thrusterForce * Time.fixedDeltaTime, ForceMode.Acceleration);
         }
     }
 
