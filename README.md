@@ -267,7 +267,7 @@ setelah kita transform rotasi relative terhadap parentnya , karena cam termasuk 
 ## Fitur FPS Game
   1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Movement-Player)
   2. [Networking Multiplayer](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Networking)\
-  3. Membuat Player Terbang (Flying / Jump) (Soon)
+  3. [Membuat Player Terbang (Flying / Jump)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Jump)
   4. Menembak Player (Debugging Shot) (Soon)
   5. Hit Damage Player (Include Hit Point) (Soon)
   6. Respawn player ketika start game (Respawning Player) (Soon)
