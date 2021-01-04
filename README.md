@@ -6,117 +6,71 @@
 Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity dengan C# , tutorial pembuatan game ini terinspirasi dari salah satu youtuber game developer yaitu [Channel Brackeys](https://www.youtube.com/user/Brackeys)
 
 
-### Persiapan Component Networking
+### Menambahkan Jump
 
-Dalam Unity sudah disediakan Package Multiplayer Game yang bisa kita gunakan , jadi kita bisa membuat game kita menjadi multiplayer dengan cukup mudah , caranya dengan import component network ke prefebs player yang sudah kita buat sebelumnya. Tetapi sebelum itu kita harus import package terlebih dahulu kedalam project kita 
-dengan cara klik <b>Window > Package Manager > MultiplayeHLAPI</b> jika sudah menemukan packagenya , install dengan menekan tombol kanan bawah, jika sudah maka kita sudah siap import Component networknya.
+Pertama yang dilakukan tentunya mendeteksi input dari user dengan menggunakan Input.GetButton("JUMP"), pada defaultnya unity menggunakan tombol SPACE.
 
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/BgxFyCP/Capture.jpg" alt="Capture" border="0"></a>
+Pertama yang dilakukan adalah membuat thrusterForce atau kekuatan dari lompatannyaa dengan menggunkan tipe data float
 
-Jika sudah langkah selanjutnya kita import Component Networking untuk Player yaitu <b>NetworkTransform , NetworkIdentity, NetworkTransformChild</b>
+        [SerializeField]
+        private float thrusterForce = 1000f;
 
+Pada PlayerController kita berikan deteksi pada method Update seperti berikut
 
-<b>NetworkTransform</b>
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/cJtfKrX/image.png" alt="image" border="0"></a>
-
-Component ini berguna untuk melakukan translasi transformasi dari prefebs player
-
-
-<b>NetworkIdentity</b>
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/vD7hgJm/image.png" alt="image" border="0"></a>
-
-Componen ini berguna untuk mengidentifikasi local player, dan pada component ini harus melakukan centang pada Local Player Authority untuk membedakan player dengan local player
-
-
-<b>NetworkTransformChild</b>
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/312VZjM/image.png" alt="image" border="0"></a>
-
-Componen ini berguna untuk melakukan transform pada childenya , karena object player ini memiliki child seperti camera , modelplayer , dan tentunya senjata agar berpindah relative terhadap parentnya. Pada target masukkan object camera yang merupakan child dari player atau kata lain camera untuk senjatanya.
-
-
-### Membuat Network Manager
-
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/7r2KhzC/image.png" alt="image" border="0"></a>
-
-Pertama kita buat empty object dan pada child nya kita buat juga empty object yang nantinya akan diberikan NetworkStartPosition yang berutujuan untuk merespown spot dari player , jika sudah , pada Object <b>_NetworkManager</b> kita masukkan Component <b>NetworkManager dan NetworkManagerUHD</b>
-
-<b>NetworKManager</b>
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/PwdX7SV/image.png" alt="image" border="0"></a>
-
-Component ini berguna untuk memanagement network seperti respawn prefebs , ataupun network info sperti ip dan semacamnya , pada Spawn Info kita import Player agar pada saat game dimulai , Player akan kepanggil kedalam game
-
-<b>NetworKManagerHUD</b>
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/qxFMw5r/image.png" alt="image" border="0"></a>
-
-Component ini berguna untuk menampilkan GUI Manager , seperti tombol start host , dan start client seperti pada gambar dibawah
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/XYsjmVQ/image.png" alt="image" border="0"></a>
-
-Jika dijalankan maka akan tampil seperti pada gambar diatas , untuk mencoba apakah sudah bisa multiplayer atau tidak , kita bisa melakukan build and run game dengan resolusi 800x600 ,kita bisa settings di player settings yang terdapat pada build project 
-
-<a href="https://ibb.co/30rQqW1"><img src="https://i.ibb.co/LCkHW6S/image.png" alt="image" border="0"></a>
-
-Jika sudah coba build and run , nanti kita kaan coba panggil player 1 dan player 2 pada game , untuk player 1 sebagai host dan player 2 sebagai client,yang sudah kita build and run tadi kita bisa jadikan dia client dan host nanti kita coba digame didalam editor unitynya, jika berhasil maka akan tampil seperti pada gambar dibawah ini
-
-<a href="https://ibb.co/hmvwxpL"><img src="https://i.ibb.co/Nyzbgwt/image.png" alt="image" border="0"></a>
-
-Tetapi ada kendala disini yaitu ketika player host mergerak , maka local player pun ikut bergerak. Ini dikarenakan local player itu memiliki script dari player host , untuk mengatasi hal ini kita harus melakukan disable beberapa script seperti <b>PlayerController , PlayerMotor , Camera senjata , dan audio </b> supaya tidak terjadinya duplikasi audio
-
-Untuk itu kita buat terlebih dahulu script PlayerSetup, lalu import ke dalam Object Player
-
-    using UnityEngine.Networking;
-
-Untuk memulai kita harus memanggil package Networking agar kita bisa melakukan pemanggilan Component Network , jika sudah tidak lupa kita ubah <b>MonoBehaviour ke NetworkBehaviour </b> supaya bisa dihandle oleh network.
-
-    [SerializeField]
-    Behaviour[] componentToDisable;
-    Camera cam;
-
-Setelah itu kita buat Inspector UI dengan mengetikan SerializeField lalu kita ketika <b>Behaviour</b>, untuk memberitahu bahwa akan dihandle oleh network dan tentunya kita beri tipe data array , karena kita ingin melakukan disable lebih banyak dari satu script , dan diakhir kita instansiasi camera untuk nanti menonaktifkan main camera
-
-    void Start()
-    {
-
-        if (!isLocalPlayer)
+        Vector3 _thrusterForce = Vector3.zero;
+       if (Input.GetButton("Jump"))
         {
-            DisableComponent();
+            _thrusterForce = Vector3.up * thrusterForce;
         }
-        else
-        {
-            cam = Camera.main;
-            if(cam != null)
-            {
-                cam.gameObject.SetActive(false);
-            }
-        }
-
-
-    }
-    
-Pada method Start , kita akan melakukan disable. Tentunya tidak semuanya kita disable , yang akan kita disable adalah yang bukan local machine player yaitu dengan melakukan pengecekan jika bukan localplayer maka kita akan disable yang mana itu ada player 2 akan terdisable , lalu kita buat function DisableComponentnya 
+        motor.applyThruster(_thrusterForce);
  
-    void DisableComponent()
-    {
-        for(int i = 0; i < componentToDisable.Length; i++)
+Dari kodingan diatas, kita buat variable thrusterforce menjadi vector zero terlebih dahulu setelah itu terdapat logika if , jika input jump yang mana button SPACE dipencet maka thrusterForce tersebut akan dikalikan dengan vector z keatas , setelah itu kita lakukan pass variable ke method applyThruster yang akan kita buat nanti di PlayerMotor
+
+Jika sudah langkah selanjutnya kita buat variablel thrusterForce pada PlayerMotor yang mana variable ini adalah wadah untuk deteksi input yang ada di PlayerController yang nanti akan kita eksekusi didalam PlayerMotor
+        
+        private Vector3 thrusterForce = Vector3.zero;
+
+Setelah kita membuatnya kita buat Method applyThruster
+ 
+        public void applyThruster(Vector3 _thrusterForce)
         {
-            componentToDisable[i].enabled = false;
+            thrusterForce = _thrusterForce;
         }
-    }
 
-Untuk melakukan disable kita menggunakan enable dan diberikan value false , tetapi karena kita ingin mendisable lebih dari satu script, kita lakukan pengulangan dengan for seperti diatas , Jika sudah semua kita coding , jangan lupa kita harus import script dan object yang akan kita disable di script Setup ini seperti pada gambar dibawah
+jika sudah, kita sudah mendapatkan isi dari thrusterForce dari PlayerController , langkah selanjutnya kita lakukan pengecekan kalau vectornya tidak sama dengan (0,0,0), maka kita akan tambahkan Force pada objectnya pada method PerformMovement yang sudah kita buat sebelumya dalam melakukan pergerakan dari player
 
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/g7Hv8Tr/image.png" alt="image" border="0"></a>
+        if (thrusterForce != Vector3.zero)
+        {
+            rb.AddForce(thrusterForce * Time.fixedDeltaTime, ForceMode.Acceleration);
+        }
 
-Terdapat 4 element yang akan kita disable , yaitu <b>PlayerController , PlayerMotor , Camera , Audio Camera</b>
-Jika sudah maka coba run and build kembali lalu mulai jalankan game multiplayer , jika berhasil maka , ketika player 1 digerakan yang terjadi adalah player 2 akan tetap diam karena kita melakukan disable script pada player 2 ,sedakngkan player 2 ketika ingin bergerak maka player 1 tidak mengikuti pergerakan dari player 2.
+Kita gunakan AddForce untuk pergerakan dari thrusterForce dan menggunakan arah vector Up yang tadi sudah kita buat di dalam PlayerController , pada addforce ini kita hanya menambahkan pergerakan dan kita kalikan dengan Time.FixedDeltaTime yang mana perubahan akan selalu Fix , dan menggunakan ForceMode Acceleration untuk membuat rigidbody memiliki akselerasi yang berkelanjutan dan akan mengabaikan mess dari object tersebut .Jika sudah maka method PerformMovement akan dieksekusi pada method FixedUpdate
 
+Jika dijalankan kita bisa melakukan lompatan seperti yang kita inginkan , tetapi ingat kita hanya membuat object tersebut dengan force up , tidak adanya gerakan kebawah yang artinya ketika kita pencet SPACE maka player akan terbang terus karena memang object tidak kita berikan gravity , lalu solusi dari permasalah ini apa ? 
+yaaaaap , kita gunakan <b>Configurable Joint</b> yang mana akan memberikan object tesebut gerakan kebawah dan adanya bouncing, kita import component <b>Configurable Joint</b> pada object player , ada beberapa yang akan kita set dalam Configurable Join
 
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/J7XTCmy/image.png" alt="image" border="0"></a>
+
+Pada Y Drive terdapat <b>Position Spring</b> , <b>Position Damper</b> , <b>Maximum Force</b>
+
+<table width:"100%";>
+    <tr>
+        <th>Property</th>
+        <th>Function</th>
+    </tr>
+    <tr>
+        <td>Position Spring</td>
+        <td>Torsi Spring merupakan Rotasi Joint dari posisinya ke posisi yang akan dituju</td>
+    </tr>
+    <tr>
+        <td>Position Damper</td>
+        <td>Untuk mengurangi kecepatan dari Torsi Spring dalam meneuju posisi yang dituju</td>
+    </tr>
+     <tr>
+        <td>Maximum Force</td>
+        <td>Merupakan maksimum gaya yang akan dikeluarkan</td>
+    </tr>
+</table>
 
 ## Fitur FPS Game
   1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Movement-Player)
