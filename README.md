@@ -46,6 +46,9 @@ jika sudah, kita sudah mendapatkan isi dari thrusterForce dari PlayerController 
 
 Kita gunakan AddForce untuk pergerakan dari thrusterForce dan menggunakan arah vector Up yang tadi sudah kita buat di dalam PlayerController , pada addforce ini kita hanya menambahkan pergerakan dan kita kalikan dengan Time.FixedDeltaTime yang mana perubahan akan selalu Fix , dan menggunakan ForceMode Acceleration untuk membuat rigidbody memiliki akselerasi yang berkelanjutan dan akan mengabaikan mess dari object tersebut .Jika sudah maka method PerformMovement akan dieksekusi pada method FixedUpdate
 
+
+### Menambahkan Gravitasi dan Bouncing
+
 Jika dijalankan kita bisa melakukan lompatan seperti yang kita inginkan , tetapi ingat kita hanya membuat object tersebut dengan force up , tidak adanya gerakan kebawah yang artinya ketika kita pencet SPACE maka player akan terbang terus karena memang object tidak kita berikan gravity , lalu solusi dari permasalah ini apa ? 
 yaaaaap , kita gunakan <b>Configurable Joint</b> yang mana akan memberikan object tesebut gerakan kebawah dan adanya bouncing, kita import component <b>Configurable Joint</b> pada object player , ada beberapa yang akan kita set dalam Configurable Join
 
@@ -72,10 +75,31 @@ Pada Y Drive terdapat <b>Position Spring</b> , <b>Position Damper</b> , <b>Maxim
     </tr>
 </table>
 
+Lalu setelah kita sudah memberikan gaya kebawah dan adanya boucing ,jika kalian perhatikan dalam position spring terdapat current posisi dengan posisi tujuan , lalu bagaimana kita set posisi tersebut , kita bisa liat dibagian atas dari Y Drive terdapat Angular Z Limit terdapat <b>Target Position</b> dan <b>target velocity</b>
+
+<table width:"100%";>
+    <tr>
+        <th>Property</th>
+        <th>Function</th>
+    </tr>
+    <tr>
+        <td>Target Position</td>
+        <td>Terget melakukan posisi yang diinginkan</td>
+    </tr>
+    <tr>
+        <td>Target Velocity</td>
+        <td>Untuk melakukan tekanan ketarget yang akan menghasilkan bouncing yang besar jika value diperbesar</td>
+    </tr>
+</table>
+
+Jika sudah , maka player kita bisa bisa melakukan lompatan dan memiliki gravitasi ketika didasar akan menghasilkan bouncing karena menggunakan Configurable Joint
+
+
+
 ## Fitur FPS Game
   1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Movement-Player)
   2. [Networking Multiplayer](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Networking)
-  3. Membuat Player Terbang (Flying / Jump) (Soon)
+  3. [Membuat Player Terbang (Flying / Jump)] (https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Jump)
   4. Menembak Player (Debugging Shot) (Soon)
   5. Hit Damage Player (Include Hit Point) (Soon)
   6. Respawn player ketika start game (Respawning Player) (Soon)
