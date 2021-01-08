@@ -6,93 +6,116 @@
 Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity dengan C# , tutorial pembuatan game ini terinspirasi dari salah satu youtuber game developer yaitu [Channel Brackeys](https://www.youtube.com/user/Brackeys)
 
 
-### Menambahkan Jump
+### Debug Shoot
+Pertama kita tambahkan tembakan pada pistol kita , tetapi terlebih dahulu kita uji coba apakah berhasil atau tidak dengan melakukan debug terlebih dahulu sebelum kita berikan effect peluru , muzzle flash , dan impact shoot. Langkah pertama kita buat terlebih dahulu script untuk weapon kita disini saya berikan nama filenya yaitu PlayerWeapon , dan import komponen script itu ke dalam prebs player kita.Setelah itu kita buat nama weapon , jangakauan weapon , dan damage weapon.
 
-Pertama yang dilakukan tentunya mendeteksi input dari user dengan menggunakan Input.GetButton("JUMP"), pada defaultnya unity menggunakan tombol SPACE.
+Sebelum itu karna saya membuat script ini untuk informasi weapon yang akan tampil didalam inspector unity yaitu dengan menggunakan System.Serializable
 
-Pertama yang dilakukan adalah membuat thrusterForce atau kekuatan dari lompatannyaa dengan menggunkan tipe data float
-
-        [SerializeField]
-        private float thrusterForce = 1000f;
-
-Pada PlayerController kita berikan deteksi pada method Update seperti berikut
-
-        Vector3 _thrusterForce = Vector3.zero;
-       if (Input.GetButton("Jump"))
+        [System.Serializable]
+        public class PlayerWeapon : MonoBehaviour
         {
-            _thrusterForce = Vector3.up * thrusterForce;
-        }
-        motor.applyThruster(_thrusterForce);
- 
-Dari kodingan diatas, kita buat variable thrusterforce menjadi vector zero terlebih dahulu setelah itu terdapat logika if , jika input jump yang mana button SPACE dipencet maka thrusterForce tersebut akan dikalikan dengan vector z keatas , setelah itu kita lakukan pass variable ke method applyThruster yang akan kita buat nanti di PlayerMotor
+            public string weapName = "Pistol-M53";
+            public float weapRange = 100f;
+            public float damage = 20f;
 
-Jika sudah langkah selanjutnya kita buat variablel thrusterForce pada PlayerMotor yang mana variable ini adalah wadah untuk deteksi input yang ada di PlayerController yang nanti akan kita eksekusi didalam PlayerMotor
+        }
+ 
+Jika sudah membuat script diatas , sekarang kita buat lagi script untuk menembak si player , disini saya berikan nama PlayerShoot , jika sudah dibuat kita hubungakan script ini dengan script PlayerWeapon dan tidak lupa kita using networking
+
+        using UnityEngine.Networking;
+        [RequireComponent(typeof(PlayerWeapon))]
         
-        private Vector3 thrusterForce = Vector3.zero;
+Jika sudah terhubung langkah selanjutnya kita ubah monobehaviour menjadi networkbehavior
 
-Setelah kita membuatnya kita buat Method applyThruster
- 
-        public void applyThruster(Vector3 _thrusterForce)
+        using UnityEngine.Networking;
+        [RequireComponent(typeof(PlayerWeapon))]
+        
+        public class PlayerShoot : NetworkBehaviour
         {
-            thrusterForce = _thrusterForce;
+            public PlayerWeapon currentWeapon;
+            [SerializeField]
+            private LayerMask mask;
+            [SerializeField]
+            private Camera cam;
         }
+Kita masukkan beberapa variable , pertama PlayerWeapon kita instansiasi kedalam script ini karena kita membutuhkan weapRangenya untuk raycasthit
+setelah itu kita LayerMask untuk mendeteksi layer , dan camera untuk memposisikan raycast dan tembakan kedepan , terlebih dahulu kita cek kondisi ketika camera tidak dimasukkan kedalam inspect unity dengan melakukan debug.log pada void start
 
-jika sudah, kita sudah mendapatkan isi dari thrusterForce dari PlayerController , langkah selanjutnya kita lakukan pengecekan kalau vectornya tidak sama dengan (0,0,0), maka kita akan tambahkan Force pada objectnya pada method PerformMovement yang sudah kita buat sebelumya dalam melakukan pergerakan dari player
+           void Start()
+            {
 
-        if (thrusterForce != Vector3.zero)
-        {
-            rb.AddForce(thrusterForce * Time.fixedDeltaTime, ForceMode.Acceleration);
-        }
+                if ( cam == null)
+                {
+                    Debug.LogError("Tidak tersedianya kamera untu referensi");
+                    this.enabled = false;
+                }
 
-Kita gunakan AddForce untuk pergerakan dari thrusterForce dan menggunakan arah vector Up yang tadi sudah kita buat di dalam PlayerController , pada addforce ini kita hanya menambahkan pergerakan dan kita kalikan dengan Time.FixedDeltaTime yang mana perubahan akan selalu Fix , dan menggunakan ForceMode Acceleration untuk membuat rigidbody memiliki akselerasi yang berkelanjutan dan akan mengabaikan mess dari object tersebut .Jika sudah maka method PerformMovement akan dieksekusi pada method FixedUpdate
+            }
 
+Dari codingan diatas kita mengecek jika cam tidak ada maka kita berikan debug error , dan camera kita disable
+Jika sudah kita buat deteksi dari player ketika player menembak dengan menggunakan mouse kiri 
 
-### Menambahkan Gravitasi dan Bouncing
+        void Update()
+            {
 
-Jika dijalankan kita bisa melakukan lompatan seperti yang kita inginkan , tetapi ingat kita hanya membuat object tersebut dengan force up , tidak adanya gerakan kebawah yang artinya ketika kita pencet SPACE maka player akan terbang terus karena memang object tidak kita berikan gravity , lalu solusi dari permasalah ini apa ? 
-yaaaaap , kita gunakan <b>Configurable Joint</b> yang mana akan memberikan object tesebut gerakan kebawah dan adanya bouncing, kita import component <b>Configurable Joint</b> pada object player , ada beberapa yang akan kita set dalam Configurable Join
+                if ( Input.GetButtonDown("Fire1"))
+                {
+                    Shoot();
+                }
 
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/J7XTCmy/image.png" alt="image" border="0"></a>
+            }
 
-Pada Y Drive terdapat <b>Position Spring</b> , <b>Position Damper</b> , <b>Maximum Force</b>
+Kita gunakan method update kerena kita akan memanggil method ini berkali kali , lalu pada method ini kita berikan pengecekan jika mouse kiri ditekan = "Fire1" , untuk default Fire1 itu merupaakn click kiri dari mouse , jika ingin diubah tentunya kita bisa pergi ke input manager, tetapi saya menggunakan default dari unitynya menggunakan click kiri mouse. Jika mouse diklik maka player akan melakukan shoot, setelah itu kita buat method shoot
+        
+           private void Shoot()
+            {
+                RaycastHit _hit;
 
-<table width:"100%";>
-    <tr>
-        <th>Property</th>
-        <th>Function</th>
-    </tr>
-    <tr>
-        <td>Position Spring</td>
-        <td>Torsi Spring merupakan Rotasi Joint dari posisinya ke posisi yang akan dituju</td>
-    </tr>
-    <tr>
-        <td>Position Damper</td>
-        <td>Untuk mengurangi kecepatan dari Torsi Spring dalam meneuju posisi yang dituju</td>
-    </tr>
-     <tr>
-        <td>Maximum Force</td>
-        <td>Merupakan maksimum gaya yang akan dikeluarkan</td>
-    </tr>
-</table>
+                if (Physics.Raycast(cam.transform.position, cam.transform.forward, out _hit, currentWeapon.weapRange, mask))
+                {
+                    Debug.Log("Player telah menembak " + _hit.collider.name);
 
-Lalu setelah kita sudah memberikan gaya kebawah dan adanya boucing ,jika kalian perhatikan dalam position spring terdapat current posisi dengan posisi tujuan , lalu bagaimana kita set posisi tersebut , kita bisa liat dibagian atas dari Y Drive terdapat Angular Z Limit terdapat <b>Target Position</b> dan <b>target velocity</b>
+                }
+            }
+Disini saya buat fitur menembak dengan menggunakan Raycashhit atau semacam sensor yaitu dengan memanggil RaycasHit dan berikan nama var nya untuk menampung raycastnya , jika sudah kita gunakan kondisi jika Physics.Raycast , terdapat 5 parameter 
 
-<table width:"100%";>
-    <tr>
-        <th>Property</th>
-        <th>Function</th>
-    </tr>
-    <tr>
-        <td>Target Position</td>
-        <td>Terget melakukan posisi yang diinginkan</td>
-    </tr>
-    <tr>
-        <td>Target Velocity</td>
-        <td>Untuk melakukan tekanan ketarget yang akan menghasilkan bouncing yang besar jika value diperbesar</td>
-    </tr>
-</table>
+ <table style="width:100%">
+  <tr>
+    <th>Parameter</th>
+    <th>referensi</th>
+    <th>Fungsi</th>
+  </tr>
+  <tr>
+    <td>Parameter 1</td>
+    <td>posisi camera pistol</td>
+    <td>posisi sensor</td>
+  </tr>
+ <tr>
+    <td>Parameter 2</td>
+    <td>Arah camera pistol dan berikan arah kedepan/forward</td>
+    <td>Arah sensor</td>
+  </tr>
+  <tr>
+    <td>Parameter 3</td>
+    <td>_hit</td>
+    <td>output raycast</td>
+  </tr>
+   <tr>
+    <td>Parameter 4</td>
+    <td>WeapRange</td>
+    <td>Jangkauan sensor </td>
+  </tr>
+  <tr>
+    <td>Parameter 5</td>
+    <td>Mask</td>
+    <td>Layer yang bisa ditembak</td>
+  </tr>
+</table> 
 
-Jika sudah , maka player kita bisa bisa melakukan lompatan dan memiliki gravitasi ketika didasar akan menghasilkan bouncing karena menggunakan Configurable Joint
+jika sudah kita lakukan debug , jika berhasil ketika kita click mouse kiri akan tampil seperti pada gambar dibawah ini
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/PQz14zW/image.png" alt="image" border="0"></a>
+
 
 
 
