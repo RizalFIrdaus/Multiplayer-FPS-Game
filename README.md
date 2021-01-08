@@ -82,7 +82,7 @@ Disini saya buat fitur menembak dengan menggunakan Raycashhit atau semacam senso
  <table style="width:100%">
   <tr>
     <th>Parameter</th>
-    <th>referensi</th>
+    <th>Referensi</th>
     <th>Fungsi</th>
   </tr>
   <tr>
