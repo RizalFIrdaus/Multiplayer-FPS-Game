@@ -6,126 +6,92 @@
 Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity dengan C# , tutorial pembuatan game ini terinspirasi dari salah satu youtuber game developer yaitu [Channel Brackeys](https://www.youtube.com/user/Brackeys)
 
 
-### Debug Shoot
-Pertama kita tambahkan tembakan pada pistol kita , tetapi terlebih dahulu kita uji coba apakah berhasil atau tidak dengan melakukan debug terlebih dahulu sebelum kita berikan effect peluru , muzzle flash , dan impact shoot. Langkah pertama kita buat terlebih dahulu script untuk weapon kita disini saya berikan nama filenya yaitu PlayerWeapon , dan import komponen script itu ke dalam prebs player kita.Setelah itu kita buat nama weapon , jangakauan weapon , dan damage weapon.
+### Graphics Player Model 
 
-Sebelum itu karna saya membuat script ini untuk informasi weapon yang akan tampil didalam inspector unity yaitu dengan menggunakan System.Serializable
+Pertama kita berikan graphics untuk player model , kita bisa ambil assets free dari website atau membuat sendiri.Tetapi saya disini menggunakan assets dari https://devassets.com/assets/multiplayer-fps-assets/ , dalam assets tersebut saya hanya menggunakan modelling player dan texturenya , jika sudah didownload kita drag and drop saja ketempat project kita diunity. Jika sudah langkah selanjutnya kita buat telebih dahulu hirarki seperti pada gambar dibawah
 
-        [System.Serializable]
-        public class PlayerWeapon : MonoBehaviour
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/QDwMcXF/image.png" alt="image" border="0"></a>
+
+pada player model kita reset transform agar posisi model sama dengan parentnya yaitu Graphics dan berikan textrurenya yang nanti akan tampil seperti pada gambar dibawah
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/qdX00f2/image.png" alt="image" border="0"></a>
+
+
+### Graphics Weapon
+
+Jika sudah memberikan model pada player , langkah selanjutnya kita beri graphics pada weaponnya dengan menggunakan assets yang diambil dari website secara gratis atau membuat sendiri. Pada project ini saya mengambil dari  https://devassets.com/assets/modern-weapons/  download lalu setelah itu import filenya kedalam project unity.
+masukkan preferb senjatannya kedalam gameobject weapon holder dan tentunya kita reset transform agar posisi dan rotasi menyesuaikan dari parentnya dan tidak lupa berikan texture nantinya akan tampil seperti pada gambar dibawah 
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/yQjP1yc/image.png" alt="image" border="0"></a>
+
+
+## Menghilakan graphic yang menghalangi camera
+
+Jika kalian play , maka disini kita dapat kendala yaitu player model akan menghalangin pandangan player untuk menembak. disini kita hilangkan padangan graphics player pada camera kita , tetapi tetap bisa diliat oleh player lainnya ketika multiplayer 
+
+<a href="https://ibb.co/hF63y7f"><img src="https://i.ibb.co/gZ2k3jV/image.png" alt="image" border="0"></a>
+
+kita bisa diliat diatas , player model mengganggu pandangan player, untuk mengatasi ini kita pertama kita buat terlebih dahulu layer dengan nama bebas tetapi untuk merepresentasikannya saya memberikan nama dontDraw 
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/G2HPCPL/image.png" alt="image" border="0"></a>
+
+dan kita matikan layer dontDraw culling mask pada camera
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/6r6w3cf/image.png" alt="image" border="0"></a>
+
+setelah itu kita coding pada playersetup
+
+        [SerializeField]
+        GameObject PlayerGraphics;
+        [SerializeField]
+        string dontDrawLayerName = "dontDraw";
+
+Pertama kita buat terlebih dahulu gameobject yang nantinya akan kita masukkan graphics model playernya yang akan kita disable.
+setelah itu kita buat variable untuk string dontDraw
+
+    void SetLayerRecursively(GameObject obj , int newLayer)
+    {
+        obj.layer = newLayer;
+        foreach (Transform child in obj.transform)
         {
-            public string weapName = "Pistol-M53";
-            public float weapRange = 100f;
-            public float damage = 20f;
-
+            SetLayerRecursively(child.gameObject, newLayer);
         }
- 
-Jika sudah membuat script diatas , sekarang kita buat lagi script untuk menembak si player , disini saya berikan nama PlayerShoot , jika sudah dibuat kita hubungakan script ini dengan script PlayerWeapon dan tidak lupa kita using networking
+    }
 
-        using UnityEngine.Networking;
-        [RequireComponent(typeof(PlayerWeapon))]
-        
-Jika sudah terhubung langkah selanjutnya kita ubah monobehaviour menjadi networkbehavior
+Disini kita buat recursive atau penganggilan method itu sendiri bertujuan untuk menghilangkan childnya juga pada modelnya 
+setelah itu kita panggil method ini pada start method
 
-        using UnityEngine.Networking;
-        [RequireComponent(typeof(PlayerWeapon))]
-        
-        public class PlayerShoot : NetworkBehaviour
-        {
-            public PlayerWeapon currentWeapon;
-            [SerializeField]
-            private LayerMask mask;
-            [SerializeField]
-            private Camera cam;
-        }
-Kita masukkan beberapa variable , pertama PlayerWeapon kita instansiasi kedalam script ini karena kita membutuhkan weapRangenya untuk raycasthit
-setelah itu kita LayerMask untuk mendeteksi layer , dan camera untuk memposisikan raycast dan tembakan kedepan , terlebih dahulu kita cek kondisi ketika camera tidak dimasukkan kedalam inspect unity dengan melakukan debug.log pada void start
-
-           void Start()
+        void Start()
             {
 
-                if ( cam == null)
+                if (!isLocalPlayer)
                 {
-                    Debug.LogError("Tidak tersedianya kamera untu referensi");
-                    this.enabled = false;
+                    DisableComponent();
                 }
-
-            }
-
-Dari codingan diatas kita mengecek jika cam tidak ada maka kita berikan debug error , dan camera kita disable
-Jika sudah kita buat deteksi dari player ketika player menembak dengan menggunakan mouse kiri 
-
-        void Update()
-            {
-
-                if ( Input.GetButtonDown("Fire1"))
+                else
                 {
-                    Shoot();
-                }
-
-            }
-
-Kita gunakan method update kerena kita akan memanggil method ini berkali kali , lalu pada method ini kita berikan pengecekan jika mouse kiri ditekan = "Fire1" , untuk default Fire1 itu merupaakn click kiri dari mouse , jika ingin diubah tentunya kita bisa pergi ke input manager, tetapi saya menggunakan default dari unitynya menggunakan click kiri mouse. Jika mouse diklik maka player akan melakukan shoot, setelah itu kita buat method shoot
-        
-           private void Shoot()
-            {
-                RaycastHit _hit;
-
-                if (Physics.Raycast(cam.transform.position, cam.transform.forward, out _hit, currentWeapon.weapRange, mask))
-                {
-                    Debug.Log("Player telah menembak " + _hit.collider.name);
-
+                    cam = Camera.main;
+                    if(cam != null)
+                    {
+                        cam.gameObject.SetActive(false);
+                    }
+                    //Panggil method tadi disini
+                    SetLayerRecursively(PlayerGraphics,LayerMask.NameToLayer(dontDrawLayerName));
                 }
             }
-Disini saya buat fitur menembak dengan menggunakan Raycashhit atau semacam sensor yaitu dengan memanggil RaycasHit dan berikan nama var nya untuk menampung raycastnya , jika sudah kita gunakan kondisi jika Physics.Raycast , terdapat 5 parameter 
 
- <table style="width:100%">
-  <tr>
-    <th>Parameter</th>
-    <th>Referensi</th>
-    <th>Fungsi</th>
-  </tr>
-  <tr>
-    <td>Parameter 1</td>
-    <td>posisi camera pistol</td>
-    <td>posisi sensor</td>
-  </tr>
- <tr>
-    <td>Parameter 2</td>
-    <td>Arah camera pistol dan berikan arah kedepan/forward</td>
-    <td>Arah sensor</td>
-  </tr>
-  <tr>
-    <td>Parameter 3</td>
-    <td>_hit</td>
-    <td>output raycast</td>
-  </tr>
-   <tr>
-    <td>Parameter 4</td>
-    <td>WeapRange</td>
-    <td>Jangkauan sensor </td>
-  </tr>
-  <tr>
-    <td>Parameter 5</td>
-    <td>Mask</td>
-    <td>Layer yang bisa ditembak</td>
-  </tr>
-</table> 
+jika sudah maka hasilnya seperti pada gambar dibawah
 
-jika sudah kita lakukan debug , jika berhasil ketika kita click mouse kiri akan tampil seperti pada gambar dibawah ini
+<a href="https://ibb.co/LnFYh5n"><img src="https://i.ibb.co/2g9WYNg/image.png" alt="image" border="0"></a>
 
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/PQz14zW/image.png" alt="image" border="0"></a>
-
-
+Pada gambar diatas sudah kita hilangkan model player pada camera dan tentunya kita tidak bisa melihat bayangan pada model player tetapi player lain bisa melihat model player kita
 
 
 ## Fitur FPS Game
   1. [Pergerakan Player (Movement)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Movement-Player)
   2. [Networking Multiplayer](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Networking)
   3. [Membuat Player Terbang (Flying / Jump)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Jump)
-  4. Menembak Player (Debugging Shot) (Soon)
-  5. Hit Damage Player (Include Hit Point) (Soon)
-  6. Respawn player ketika start game (Respawning Player) (Soon)
-  7. Membuat Model pada Player (Make a Model Player) (Soon)
-  8. Titik Tembak (CrossHair) (Soon)
+  4. Menembak Player (Debugging Shot)
+  5. Graphics Modelling
+
   
