@@ -6,85 +6,96 @@
 Saya membuat repository ini untuk pengalaman belajar saya menggunakan unity dengan C# , tutorial pembuatan game ini terinspirasi dari salah satu youtuber game developer yaitu [Channel Brackeys](https://www.youtube.com/user/Brackeys)
 
 
-### Graphics Player Model 
+### Weapon Manager
 
-Pertama kita berikan graphics untuk player model , kita bisa ambil assets free dari website atau membuat sendiri.Tetapi saya disini menggunakan assets dari https://devassets.com/assets/multiplayer-fps-assets/ , dalam assets tersebut saya hanya menggunakan modelling player dan texturenya , jika sudah didownload kita drag and drop saja ketempat project kita diunity. Jika sudah langkah selanjutnya kita buat telebih dahulu hirarki seperti pada gambar dibawah
+Pada kesempatan kali ini  ,saya membuat weapon manager untuk memanagement senjata.Kita akan lakukan instansiate otomatis senjata kepada player dengan menggunakan primary weapon dan current weapon , pada primary weapon nantinya kita berikan object dan object tersebut nantinya akan dipass ke current weapon atau weapon yang sedang digunakan.
 
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/QDwMcXF/image.png" alt="image" border="0"></a>
+Pertama kita lepas terlebih dahulu senjata dari weapon holder dengan melakukan save prefab variant agar material dan texture tidak hilang
 
-pada player model kita reset transform agar posisi model sama dengan parentnya yaitu Graphics dan berikan textrurenya yang nanti akan tampil seperti pada gambar dibawah
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/smK6gmD/image.png" alt="image" border="0"></a>
 
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/qdX00f2/image.png" alt="image" border="0"></a>
+jika sudah , maka prefb player kita sudah tidak memegang senjata. kita akan masukkan senjata tersebut dengan otomatis dengan memanfaatkan management weapon , pertama kita buat terlebih dahulu object graphics pada PlayerWeapon yang nantinya akan diimport object graphics senjatanya didalam variable tersebut
 
+        using UnityEngine;
 
-### Graphics Weapon
-
-Jika sudah memberikan model pada player , langkah selanjutnya kita beri graphics pada weaponnya dengan menggunakan assets yang diambil dari website secara gratis atau membuat sendiri. Pada project ini saya mengambil dari  https://devassets.com/assets/modern-weapons/  download lalu setelah itu import filenya kedalam project unity.
-masukkan preferb senjatannya kedalam gameobject weapon holder dan tentunya kita reset transform agar posisi dan rotasi menyesuaikan dari parentnya dan tidak lupa berikan texture nantinya akan tampil seperti pada gambar dibawah 
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/yQjP1yc/image.png" alt="image" border="0"></a>
-
-
-## Menghilakan graphic yang menghalangi camera
-
-Jika kalian play , maka disini kita dapat kendala yaitu player model akan menghalangin pandangan player untuk menembak. disini kita hilangkan padangan graphics player pada camera kita , tetapi tetap bisa diliat oleh player lainnya ketika multiplayer 
-
-<a href="https://ibb.co/hF63y7f"><img src="https://i.ibb.co/gZ2k3jV/image.png" alt="image" border="0"></a>
-
-kita bisa diliat diatas , player model mengganggu pandangan player, untuk mengatasi ini kita pertama kita buat terlebih dahulu layer dengan nama bebas tetapi untuk merepresentasikannya saya memberikan nama dontDraw 
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/G2HPCPL/image.png" alt="image" border="0"></a>
-
-dan kita matikan layer dontDraw culling mask pada camera
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/6r6w3cf/image.png" alt="image" border="0"></a>
-
-setelah itu kita coding pada playersetup
-
-        [SerializeField]
-        GameObject PlayerGraphics;
-        [SerializeField]
-        string dontDrawLayerName = "dontDraw";
-
-Pertama kita buat terlebih dahulu gameobject yang nantinya akan kita masukkan graphics model playernya yang akan kita disable.
-setelah itu kita buat variable untuk string dontDraw
-
-    void SetLayerRecursively(GameObject obj , int newLayer)
-    {
-        obj.layer = newLayer;
-        foreach (Transform child in obj.transform)
+        [System.Serializable]
+        public class PlayerWeapon
         {
-            SetLayerRecursively(child.gameObject, newLayer);
+
+            public string weapName = "Pistol-M53";
+            public float weapRange = 100f;
+            public float damage = 20f;
+            public GameObject graphics;
+
+
         }
-    }
+jika sudah ditambahan gameobject pada PlayerWeapon , langkah selanjutnya kita buat script baru dengan WeaponManager pada preferb player
 
-Disini kita buat recursive atau penganggilan method itu sendiri bertujuan untuk menghilangkan childnya juga pada modelnya 
-setelah itu kita panggil method ini pada start method
+        using UnityEngine;
+        using UnityEngine.Networking;
+        
+        [System.Obsolete]
+        public class WeaponManager : NetworkBehaviour 
+        {
+            private PlayerWeapon currentWeapon;
+            
+            [SerializeField]
+            private PlayerWeapon primaryWeapon;
+            [SerializeField]
+            private Transform weaponHolder;
+            
 
-        void Start()
+            void Start()
             {
-
-                if (!isLocalPlayer)
-                {
-                    DisableComponent();
-                }
-                else
-                {
-                    cam = Camera.main;
-                    if(cam != null)
-                    {
-                        cam.gameObject.SetActive(false);
-                    }
-                    //Panggil method tadi disini
-                    SetLayerRecursively(PlayerGraphics,LayerMask.NameToLayer(dontDrawLayerName));
-                }
+                EquipWeapon(primaryWeapon);
             }
 
-jika sudah maka hasilnya seperti pada gambar dibawah
 
-<a href="https://ibb.co/LnFYh5n"><img src="https://i.ibb.co/2g9WYNg/image.png" alt="image" border="0"></a>
+            void EquipWeapon(PlayerWeapon _weap)
+            {
+                currentWeapon = _weap;
 
-Pada gambar diatas sudah kita hilangkan model player pada camera dan tentunya kita tidak bisa melihat bayangan pada model player tetapi player lain bisa melihat model player kita
+               GameObject _weaponIns = (GameObject)Instantiate(_weap.graphics, weaponHolder.position, weaponHolder.rotation);
+                _weaponIns.transform.SetParent(weaponHolder);
+            }
+
+
+            public PlayerWeapon getCurrentWeapon()
+            {
+                return currentWeapon;
+            }
+
+        }
+
+Kita buat WeaponManager menggunakan NetworkBehaviour karena akan dieksekusi juga kedalam server , dengan begitu tentunya kita using unity networking
+Setelah itu kita buat primary weapon untuk mengambil graphics weapon dan weapon holder untuk merespawn location dan rotation pada weaponya
+
+Lalu pada method start kita buat method Equip Weapon yang mana terdapat parameter berupa primaryWeapon , setelahnya kita buat method tersebut dengan parameter yang mereferensi dari PlayerWeapon , didalam method tersebut kita swap primarry weapon ke current weapon , laiu instansiate graohics yang diambil dari graphics dari yang sudah kita import nanti , dan untuk parameter kedua itu merupakan posisi dari graphics dan parameter ke3 itu merupakan rotasi dari weapon holder , pada position dan rotation kita gunakan object weaponHolder.
+Jika sudah lakukan transform terhadap parent weapon holder
+
+lalu kita beralih ke PlayerShoot , dimana terdapat method start , didaamnya kita instansiasi component weapon manager
+
+         void Start()
+            {
+
+                if ( cam == null)
+                {
+                    Debug.LogError("Tidak tersedianya kamera untu referensi");
+                    this.enabled = false;
+                }
+                weapManager = GetComponent<WeaponManager>();
+            }
+            
+setelah itu pada update kita eksekusi pass primary weapon dengan current weapon
+        
+        currentWeapon = weapManager.getCurrentWeapon();
+
+### Rapid Fire
+
+Sekarang kita yang kilakukan adalah melakukan sistem penembakan beredet dan shotgun , pertama kita buat pada weapon manager sebuah variable fireRate untuk kecepatan dari tembakan nanti kita akan berikan fireRate= 0 untuk shotgun , sedangkan beredet akan diberikan fire rate diatas 0.
+
+Pertama kita ubah pada update pada file PlayerShoot
+
 
 
 ## Fitur FPS Game
@@ -93,5 +104,6 @@ Pada gambar diatas sudah kita hilangkan model player pada camera dan tentunya ki
   3. [Membuat Player Terbang (Flying / Jump)](https://github.com/RizalFIrdaus/Multiplayer-FPS-Game/tree/Jump)
   4. Menembak Player (Debugging Shot)
   5. Graphics Modelling
+  6. Rapid Fire
 
   
